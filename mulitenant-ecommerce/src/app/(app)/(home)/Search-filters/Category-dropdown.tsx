@@ -5,10 +5,12 @@ import { Category } from "@/payload-types"
 import { useRef, useState } from "react"
 import { useDropdownPosition } from "./use-dropdown-position";
 import { SubcategoryMenu } from "./subcategory-menu";
+import { CustomCategory } from "../types";
+import Link from "next/link";
 
 interface props {
     isActive?: boolean,
-    category: Category,
+    category: CustomCategory,
     isNavigationHovered?: boolean
 }
 
@@ -34,21 +36,24 @@ export const CategoryDropdown = ({ isActive, category, isNavigationHovered }: pr
             ref={dropdownref}
             className="relative">
             <div className="relative">
-            <Button variant="elevated"
-                className={cn("h-11 border-transparent hover:border-primary bg-transparent hover:bg-white px-4 rounded-full text-black",
-                    isActive && !isNavigationHovered && "bg-white border-primary"
-                )}>
-                {category.name}
-            </Button>
-            {category.subcategories && category.subcategories.length > 0 && (
-                <div className={cn("-bottom-3 opacity-0 absolute w-0 h-0 border-l-transparent border-r-transparent border-b-black border-r-10 border-b-10 border-l-10 left-1/2 -translate-x-1/2",
-                isOpen && "opacity-100")} />
-            )}
+                <Button variant="elevated"
+                    className={cn("h-11 border-transparent hover:border-primary bg-transparent hover:bg-white px-4 rounded-full text-black",
+                        isActive && !isNavigationHovered && "bg-white border-primary",
+                        isOpen && "bg-white border-primary"
+                    )}>
+                    <Link href={`/${category.slug === "all" ? "" : category.slug}`}>
+                        {category.name}
+                    </Link>
+                </Button>
+                {category.subcategories && category.subcategories.length > 0 && (
+                    <div className={cn("-bottom-3 opacity-0 absolute w-0 h-0 border-l-transparent border-r-transparent border-b-black border-r-10 border-b-10 border-l-10 left-1/2 -translate-x-1/2",
+                        isOpen && "opacity-100")} />
+                )}
             </div>
             <SubcategoryMenu
-            isOpen={isOpen}
-            category={category}
-            position={dropdownPosition}
+                isOpen={isOpen}
+                category={category}
+                position={dropdownPosition}
             />
         </div>
     )
