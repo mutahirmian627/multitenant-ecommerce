@@ -5,12 +5,12 @@ import { Category } from "@/payload-types"
 import { useRef, useState } from "react"
 import { useDropdownPosition } from "./use-dropdown-position";
 import { SubcategoryMenu } from "./subcategory-menu";
-import { CustomCategory } from "../types";
 import Link from "next/link";
+import { CategoriesGetManyOutput } from "@/modules/categories/types";
 
 interface props {
     isActive?: boolean,
-    category: CustomCategory,
+    category: CategoriesGetManyOutput[1],
     isNavigationHovered?: boolean
 }
 
