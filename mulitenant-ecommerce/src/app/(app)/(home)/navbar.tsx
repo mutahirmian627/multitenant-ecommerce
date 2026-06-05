@@ -8,6 +8,8 @@ import { ReactNode, useState } from "react";
 import { usePathname } from "next/navigation";
 import { NavbarSidebar } from "./navbar-sidebar";
 import { MenuIcon } from "lucide-react";
+import { useTRPC } from "@/trpc/client";
+import { useQuery } from "@tanstack/react-query";
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -46,6 +48,8 @@ export const Navbar = () => {
     const pathname = usePathname();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
+    const trpc = useTRPC();
+    const session = useQuery(trpc.auth.session.queryOptions())
 
     return (
         <nav className="h-20 flex border-b justify-between font-medium bg-white">
@@ -64,20 +68,28 @@ export const Navbar = () => {
                     </NavbarItem>
                 ))}
             </div>
-
-            <div className="hidden lg:flex">
-                <Button className="border-l border-t-0 border-r-0 border-b-0 text-black bg-white h-full px-12 transition-colors rounded-none hover:bg-pink-400 text-lg">
-                    <Link prefetch href="/sign-in">
-                        Log in
-                    </Link>
-                </Button>
-                <Button className="h-full text-white bg-black px-12 border-l border-b-0 rounded-none border-r-0 border-t-0 hover:text-black hover:bg-pink-400">
-                    <Link prefetch href="/sign-up">
-                        Start Selling
-                    </Link>
-                </Button>
-            </div>
-
+            {session.data?.user ? (
+                <div className="hidden lg:flex">
+                    <Button className="h-full text-white bg-black px-12 border-l border-b-0 rounded-none border-r-0 border-t-0 hover:text-black hover:bg-pink-400">
+                        <Link href="/admin">
+                            Dashboard
+                        </Link>
+                    </Button>
+                </div>
+            ) : (
+                <div className="hidden lg:flex">
+                    <Button className="border-l border-t-0 border-r-0 border-b-0 text-black bg-white h-full px-12 transition-colors rounded-none hover:bg-pink-400 text-lg">
+                        <Link prefetch href="/sign-in">
+                            Log in
+                        </Link>
+                    </Button>
+                    <Button className="h-full text-white bg-black px-12 border-l border-b-0 rounded-none border-r-0 border-t-0 hover:text-black hover:bg-pink-400">
+                        <Link prefetch href="/sign-up">
+                            Start Selling
+                        </Link>
+                    </Button>
+                </div>
+            )}
             <div className="flex lg:hidden items-center justify-center">
                 <Button
                     onClick={() => setIsSidebarOpen(true)}
