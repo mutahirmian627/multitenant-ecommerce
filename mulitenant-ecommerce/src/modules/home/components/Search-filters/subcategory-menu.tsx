@@ -5,20 +5,19 @@ import { CategoriesGetManyOutput } from "@/modules/categories/types";
 interface props {
     isOpen: boolean,
     category: CategoriesGetManyOutput[1],
-    position: { top: number, left: number }
 }
 
-export const SubcategoryMenu = ({isOpen, category, position}: props) => {
+export const SubcategoryMenu = ({isOpen, category }: props) => {
     if(!isOpen || !category.subcategories || category.subcategories.length === 0){
         return null;
     };
 
     const backgroundColor = category.color || "#F5F5F5";
     return (
-        <div className="fixed z-100"
+        <div className="absolute z-100"
         style={{ 
-            top: position.top,
-            left: position.left,
+            top: "100%",
+            left: 0,
          }}
         >
             {/* Invisible bridge to maintain hover */}
