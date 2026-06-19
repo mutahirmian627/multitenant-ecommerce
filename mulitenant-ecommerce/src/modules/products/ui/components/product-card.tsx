@@ -3,7 +3,7 @@ import Image from "next/image";
 import { StarIcon } from "lucide-react";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { generateTenantURL } from "@/lib/utils";
+import { formatCurrency, generateTenantURL } from "@/lib/utils";
 
 interface Props {
     id: string;
@@ -28,7 +28,7 @@ export const ProductCard = ({ id, name, imageURL, tenantSlug, tenantImageUrl, re
     }
 
     return (
-        <Link href={`products/${id}`}>
+        <Link href={`${generateTenantURL(tenantSlug)}/products/${id}`}>
             <div className="hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-shadow border rounded-md bg-white overflow-hidden h-full flex flex-col">
                 <div className="relative aspect-square">
                     <Image
@@ -43,17 +43,17 @@ export const ProductCard = ({ id, name, imageURL, tenantSlug, tenantImageUrl, re
                     </h2>
                     <div className="flex items-center gap-2" onClick={handleUserClick}>
                         {tenantImageUrl && (
-                            <Image alt={tenantSlug} src={tenantImageUrl} 
-                            width={16}
-                            height={16}
-                            className="rounded-full border shrink-0 size-4"
+                            <Image alt={tenantSlug} src={tenantImageUrl}
+                                width={16}
+                                height={16}
+                                className="rounded-full border shrink-0 size-4"
                             />
                         )}
                         <p className="text-sm underline font-medium">{tenantSlug}</p>
                     </div>
                     {reviewCount > 0 && (
                         <div className="flex items-center gap-1">
-                            <StarIcon className="size-3.5 fill-black"/>
+                            <StarIcon className="size-3.5 fill-black" />
                             <p className="text-sm font-medium">
                                 {reviewRating} ({reviewCount})
                             </p>
@@ -63,12 +63,7 @@ export const ProductCard = ({ id, name, imageURL, tenantSlug, tenantImageUrl, re
                 <div className="p-4">
                     <div className="relative px-2 py-1 border bg-pink-400 w-fit">
                         <p className="text-sm font-medium">
-                            {new Intl.NumberFormat("en-us", {
-                                style: "currency",
-                                currency: "USD",
-                                maximumFractionDigits: 0,
-                            }).format(Number(price))}
-
+                            {formatCurrency(price)}
                         </p>
                     </div>
                 </div>
