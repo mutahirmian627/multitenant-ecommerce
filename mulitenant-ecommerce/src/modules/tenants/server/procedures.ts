@@ -1,10 +1,9 @@
 import z from "zod";
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
-import { DEFAULT_LIMIT } from "@/constants";
 import { TRPCError } from "@trpc/server";
 import { Media, Tenant } from "@/payload-types";
 
-export const TenantsRouter = createTRPCRouter({
+export const tenantsRouter = createTRPCRouter({
     getOne: baseProcedure.input(
         z.object({
             slug: z.string()
