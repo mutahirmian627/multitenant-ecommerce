@@ -15,11 +15,11 @@ import { formatCurrency, generateTenantURL } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
 //import { CartButton } from "../components/cart-button";
 
-const CartButton = dynamic(()=> import("../components/cart-button").then(
+const CartButton = dynamic(() => import("../components/cart-button").then(
     (mod) => mod.CartButton,
-),{
+), {
     ssr: false,
-    loading: ()=> <Button disabled className="bg-pink-400 h-12 flex-1">Add to cart</Button>
+    loading: () => <Button disabled className="bg-pink-400 h-12 flex-1">Add to cart</Button>
 });
 
 interface Props {
@@ -104,7 +104,11 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
                         <div className="border-t lg:border-t-0 lg:border-l h-full">
                             <div className="flex flex-col p-6 border-b gap-4">
                                 <div className="flex flex-row items-center gap-2">
-                                    <CartButton tenantSlug={tenantSlug} productId={productId} />
+                                    <CartButton
+                                        isPurchased={data.isPurchased}
+                                        tenantSlug={tenantSlug}
+                                        productId={productId}
+                                    />
                                     <Button
                                         className="size-12"
                                         variant="elevated"
@@ -123,7 +127,7 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
                                 <div className="flex items-center justify-between">
                                     <h3 className="text-xl font-medium">Ratings</h3>
                                     <div className="flex items-center gap-x-1 font-medium">
-                                        <StarIcon className="fill-black size-4"/>
+                                        <StarIcon className="fill-black size-4" />
                                         <p>({5})</p>
                                         <p className="text-base">{5} Ratings</p>
                                     </div>
@@ -132,9 +136,9 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
                                     {[5, 4, 3, 2, 1].map((stars) => (
                                         <Fragment key={stars}>
                                             <div className="font-medium">{stars} {stars ? "star" : "stars"}</div>
-                                            <Progress 
-                                            value={25}
-                                            className="h-1lh"
+                                            <Progress
+                                                value={25}
+                                                className="h-1lh"
                                             />
                                             <div className="font-medium">
                                                 {25}%
