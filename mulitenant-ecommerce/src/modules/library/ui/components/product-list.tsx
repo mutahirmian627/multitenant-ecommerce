@@ -1,6 +1,6 @@
 "use client";
 import { useTRPC } from "@/trpc/client"
-import { useSuspenseInfiniteQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { ProductCard, ProductCardLoading } from "./product-card";
 import { DEFAULT_LIMIT } from "@/constants";
 import { Button } from "@/components/ui/button";
@@ -39,8 +39,8 @@ export const ProductList = () => {
                         imageURL={product.image?.url || "/placeholder.png"}
                         tenantSlug={product.tenant?.slug}
                         tenantImageUrl={product.tenant?.image?.url}
-                        reviewRating={3}
-                        reviewCount={5}
+                        reviewRating={product.reviewRating}
+                        reviewCount={product.reviewCount}
                     />
                 ))}
             </div>
