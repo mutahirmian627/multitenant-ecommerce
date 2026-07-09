@@ -1,22 +1,23 @@
 // storage-adapter-import-placeholder
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import path from 'path'
-import { buildConfig } from 'payload'
-import { fileURLToPath } from 'url'
-import sharp from 'sharp'
-import { multiTenantPlugin } from "@payloadcms/plugin-multi-tenant"
+import { buildConfig } from 'payload';
+import { mongooseAdapter } from '@payloadcms/db-mongodb';
+import { payloadCloudPlugin } from '@payloadcms/payload-cloud';
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import { multiTenantPlugin } from "@payloadcms/plugin-multi-tenant";
+import path from 'path';
+import sharp from 'sharp';
+import { fileURLToPath } from 'url';
+import { isSuperAdmin } from './lib/access';
 
-import { Users } from './collections/Users'
-import { Media } from './collections/Media'
-import { Categories } from './collections/Categories'
-import { Products } from './collections/Products'
-import { Tags } from './collections/Tags'
-import { Tenants } from './collections/Tenants'
-import { Config } from './payload-types'
-import { Orders } from './collections/Orders'
-import { Reviews } from './collections/Reviews'
+import { Users } from './collections/Users';
+import { Media } from './collections/Media';
+import { Categories } from './collections/Categories';
+import { Products } from './collections/Products';
+import { Tags } from './collections/Tags';
+import { Tenants } from './collections/Tenants';
+import { Config } from './payload-types';
+import { Orders } from './collections/Orders';
+import { Reviews } from './collections/Reviews';
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -56,7 +57,7 @@ export default buildConfig({
       tenantsArrayField: {
         includeDefaultField: false,
       },
-      userHasAccessToAllTenants: (user) => Boolean(user?.roles?.includes("super-admin"))
+      userHasAccessToAllTenants: (user) => isSuperAdmin(user)
     })
     // storage-adapter-placeholder
   ],
